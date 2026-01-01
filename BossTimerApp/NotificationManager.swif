@@ -1,8 +1,12 @@
+import Foundation
+
 import UserNotifications
 
 class NotificationManager {
 
     static let shared = NotificationManager()
+
+    /// 通知許可をリクエスト
 
     func requestPermission() {
 
@@ -12,17 +16,27 @@ class NotificationManager {
 
     }
 
-    func schedule(boss: Boss) {
+    /// ボスごとの通知をセット
+
+    func scheduleNotification(boss: Boss) {
+
+        // 通知を出すまでの秒数
+
+        let triggerSeconds = boss.respawnSeconds - boss.notifyBeforeSeconds
+
+        if triggerSeconds <= 0 { return }
 
         let content = UNMutableNotificationContent()
 
-        content.title = "ボス復活通知"
+        content.title = "リポップ通知"
 
-        content.body = boss.notifyMessage
+        content.body = "\(boss.name)のリポップ\(boss.notifyBeforeSeconds)秒前です。"
+
+        content.sound = .default
 
         let trigger = UNTimeIntervalNotificationTrigger(
 
-            timeInterval: boss.notifyAfterSeconds,
+            timeInterval: TimeInterval(triggerSeconds),
 
             repeats: false
 
