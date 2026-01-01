@@ -18,11 +18,11 @@ class NotificationManager {
 
         content.title = "ボス復活通知"
 
-        content.body = "\(boss.name)のリポップです"
+        content.body = boss.notifyMessage
 
         let trigger = UNTimeIntervalNotificationTrigger(
 
-            timeInterval: boss.notifySeconds,
+            timeInterval: boss.notifyAfterSeconds,
 
             repeats: false
 
